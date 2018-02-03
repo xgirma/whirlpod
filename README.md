@@ -1,2 +1,2 @@
-# pod-sucker
-sucker for podcast metadata.
+# Podcast Sucker
+Sucker for podcast metadata.
