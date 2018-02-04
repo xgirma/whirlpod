@@ -15,6 +15,7 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/pods', index);
 app.use('/pods/ten/:type', index);
+app.use('/pods/:id', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
