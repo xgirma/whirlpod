@@ -70,13 +70,13 @@ const tenLiked = function (cb) {
 const title = function (title, type, cb) {
 	MongoClient.connect(url, function (err, client) {
 		assert.equal(null, err);
-		console.info('Connected to db to get top 10 liked pods.');
+		console.info('Connected to db to get all pods of a title.');
 		
 		const db = client.db('securitypodcasts');
 		const collection = db.collection('pods');
 		let sort = {published: -1};
 		if (type && type === 'liked') {
-			sort = {likes: -1}
+			sort = {likes: -1};
 		}
 		
 		console.log(title, type);
@@ -97,7 +97,7 @@ const title = function (title, type, cb) {
 const like = function (id, cb) {
 	MongoClient.connect(url, function (err, client) {
 		assert.equal(null, err);
-		console.log(`Connected to db to update like for `);
+		console.log(`Connected to db to increment like for ${id}`);
 		
 		const db = client.db('securitypodcasts');
 		const collection = db.collection('pods');
@@ -112,7 +112,7 @@ const like = function (id, cb) {
 				cb(err, likedPod);
 			}
 		);
-	})
+	});
 };
 
 /* insert new pods */
@@ -124,8 +124,8 @@ const insertPods = function (feed, cb) {
 		const db = client.db('securitypodcasts');
 		updatePod(feed, db, function (data) {
 			client.close();
-			console.info("Posted: ", data);
-			cb(err, {status: "ok"});
+			console.info('Posted: ', data);
+			cb(err, {status: 'ok'});
 		});
 	});
 };

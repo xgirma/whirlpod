@@ -19,20 +19,20 @@ router.get('/pods', function (req, res, next) {
 
 /* GET 10 recent or top 10 liked pods */
 router.get('/pods/ten/:type', function (req, res, next) {
-	if (req.params.type === "recent") {
+	if (req.params.type === 'recent') {
 		mongoClient.tenRecent(function (err, pods) {
 			if (err) {
 				console.error(err);
 			}
 			res.json(pods);
-		})
-	} else if (req.params.type === "liked") {
+		});
+	} else if (req.params.type === 'liked') {
 		mongoClient.tenLiked(function (err, pods) {
 			if (err) {
 				console.error(err);
 			}
 			res.json(pods);
-		})
+		});
 	} else {
 		res.sendStatus(404);
 	}
@@ -68,7 +68,7 @@ router.post('/pods', function (req, res, next) {
 		if (err) {
 			console.error(err);
 		}
-		res.status(200).json(cb)
+		res.status(200).json(cb);
 	});
 });
 

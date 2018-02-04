@@ -37,7 +37,7 @@ function insertPods(feed, db, cb) {
 				episode_title = data.episodes[i].title || 'Episode title not found.';
 				published = data.episodes[i].published || 'Published date info not found.';
 				duration = data.episodes[i].duration || 'Duration data not found.';
-				audio = data.episodes[i].enclosure.url || "Audio url not found.";
+				audio = data.episodes[i].enclosure.url || 'Audio url not found.';
 				
 				collection.update(
 					{
@@ -59,7 +59,7 @@ function insertPods(feed, db, cb) {
 					{
 						upsert: true
 					}
-				)
+				);
 			}
 			cb(title);
 		});
