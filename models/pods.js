@@ -14,12 +14,12 @@ const pods = function (cb) {
 		
 		collection
 			.find()
-			.sort({'date': -1})
-			.toArray(function (err, docs) {
+			.sort({'published': -1})
+			.toArray(function (err, pods) {
 				assert.equal(null, err);
 				
 				client.close();
-				cb(err, docs);
+				cb(err, pods);
 			});
 	});
 };
@@ -35,13 +35,13 @@ const tenRecent = function (cb) {
 		
 		collection
 			.find()
-			.sort({'date': -1})
+			.sort({'published': -1})
 			.limit(10)
-			.toArray(function (err, docs) {
+			.toArray(function (err, pods) {
 				assert.equal(null, err);
 				
 				client.close();
-				cb(err, docs);
+				cb(err, pods);
 			});
 	});
 };
@@ -59,11 +59,39 @@ const tenLiked = function (cb) {
 			.find()
 			.sort({'likes': -1})
 			.limit(10)
-			.toArray(function (err, docs) {
+			.toArray(function (err, pods) {
 				assert.equal(null, err);
 				
 				client.close();
-				cb(err, docs);
+				cb(err, pods);
+			});
+	});
+};
+
+/* return all pods from a title */
+const title = function (title, type, cb){
+	MongoClient.connect(url, function (err, client) {
+		assert.equal(null, err);
+		console.info('Connected to db to get top 10 liked pods.');
+		
+		const db = client.db('securitypodcasts');
+		const collection = db.collection('pods');
+		let sort = {published: -1};
+		if(type && type === 'liked'){
+			sort = {likes: -1}
+		}
+		
+		console.log(title, type);
+		
+		collection
+			.find({ title : title})
+			.sort(sort)
+			.limit(10)
+			.toArray(function (err, pods) {
+				assert.equal(null, err);
+				
+				client.close();
+				cb(err, pods);
 			});
 	});
 };
@@ -95,5 +123,6 @@ module.exports = {
 	pods,
 	tenRecent,
 	tenLiked,
+	title,
 	like,
 };

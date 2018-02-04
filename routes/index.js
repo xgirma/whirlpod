@@ -38,14 +38,29 @@ router.get('/pods/ten/:type', function (req, res, next) {
 	}
 });
 
+/* GET all pods by title and sort by recent or liked */
+router.get('/pods/:title/:type', function (req, res, next) {
+	const title = req.params.title;
+	const type = req.params.type;
+	mongoClient.title(title, type, function (err, pods){
+		if(err){
+			console.error(err);
+		}
+		res.json(pods);
+	});
+});
+
+/* POST increment like count */
 router.post('/pods/:id', function (req, res, next) {
 	const id = req.params.id;
 	mongoClient.like(id, function (err, likedPod){
 		if(err){
 			console.error(err);
 		}
-		res.json(likedPod)
+		res.json(likedPod);
 	});
 });
+
+
 
 module.exports = router;
