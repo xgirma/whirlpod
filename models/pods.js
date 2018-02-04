@@ -18,7 +18,6 @@ const pods = function (cb) {
 			.sort({'published': -1})
 			.toArray(function (err, pods) {
 				assert.equal(null, err);
-				
 				client.close();
 				cb(err, pods);
 			});
@@ -40,7 +39,6 @@ const tenRecent = function (cb) {
 			.limit(10)
 			.toArray(function (err, pods) {
 				assert.equal(null, err);
-				
 				client.close();
 				cb(err, pods);
 			});
@@ -62,7 +60,6 @@ const tenLiked = function (cb) {
 			.limit(10)
 			.toArray(function (err, pods) {
 				assert.equal(null, err);
-				
 				client.close();
 				cb(err, pods);
 			});
@@ -70,7 +67,7 @@ const tenLiked = function (cb) {
 };
 
 /* return all pods from a title */
-const title = function (title, type, cb){
+const title = function (title, type, cb) {
 	MongoClient.connect(url, function (err, client) {
 		assert.equal(null, err);
 		console.info('Connected to db to get top 10 liked pods.');
@@ -78,19 +75,18 @@ const title = function (title, type, cb){
 		const db = client.db('securitypodcasts');
 		const collection = db.collection('pods');
 		let sort = {published: -1};
-		if(type && type === 'liked'){
+		if (type && type === 'liked') {
 			sort = {likes: -1}
 		}
 		
 		console.log(title, type);
 		
 		collection
-			.find({ title : title})
+			.find({title: title})
 			.sort(sort)
 			.limit(10)
 			.toArray(function (err, pods) {
 				assert.equal(null, err);
-				
 				client.close();
 				cb(err, pods);
 			});
@@ -112,7 +108,6 @@ const like = function (id, cb) {
 			{maxTimeMS: 5}, function (err, likedPod) {
 				assert.equal(null, err);
 				assert.equal(id, likedPod.value._id);
-				
 				client.close();
 				cb(err, likedPod);
 			}
@@ -120,16 +115,17 @@ const like = function (id, cb) {
 	})
 };
 
+/* insert new pods */
 const insertPods = function (feed, cb) {
 	MongoClient.connect(url, function (err, client) {
 		assert.equal(null, err);
 		console.info('Connected to db to insert pods.');
 		
 		const db = client.db('securitypodcasts');
-		updatePod(feed, db, function(data) {
+		updatePod(feed, db, function (data) {
 			client.close();
 			console.info("Posted: ", data);
-			cb(err, {status:"ok"});
+			cb(err, {status: "ok"});
 		});
 	});
 };

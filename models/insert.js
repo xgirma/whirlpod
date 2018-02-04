@@ -1,7 +1,7 @@
 const request = require('request');
 const parser = require('node-podcast-parser');
 
-function insertPods (feed, db, cb) {
+function insertPods(feed, db, cb) {
 	const collection = db.collection('pods');
 	let title;
 	let link;
@@ -33,7 +33,7 @@ function insertPods (feed, db, cb) {
 			owner_name = data.owner.name || 'Owner name not found.';
 			owner_email = data.owner.email || 'Owner email not found.';
 			
-			for (let i = 0; i < data.episodes.length; i += 1){
+			for (let i = 0; i < data.episodes.length; i += 1) {
 				episode_title = data.episodes[i].title || 'Episode title not found.';
 				published = data.episodes[i].published || 'Published date info not found.';
 				duration = data.episodes[i].duration || 'Duration data not found.';

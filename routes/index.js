@@ -42,8 +42,8 @@ router.get('/pods/ten/:type', function (req, res, next) {
 router.get('/pods/:title/:type', function (req, res, next) {
 	const title = req.params.title;
 	const type = req.params.type;
-	mongoClient.title(title, type, function (err, pods){
-		if(err){
+	mongoClient.title(title, type, function (err, pods) {
+		if (err) {
 			console.error(err);
 		}
 		res.json(pods);
@@ -53,8 +53,8 @@ router.get('/pods/:title/:type', function (req, res, next) {
 /* POST increment like count */
 router.post('/pods/:id', function (req, res, next) {
 	const id = req.params.id;
-	mongoClient.like(id, function (err, likedPod){
-		if(err){
+	mongoClient.like(id, function (err, likedPod) {
+		if (err) {
 			console.error(err);
 		}
 		res.json(likedPod);
@@ -62,9 +62,9 @@ router.post('/pods/:id', function (req, res, next) {
 });
 
 /* POST podcasts */
-router.post('/pods', function (req, res, next){
+router.post('/pods', function (req, res, next) {
 	const feed = 'http://dhenage.libsyn.com/rss'; // TODO remove this
-	mongoClient.insertPods(feed, function(err, cb){
+	mongoClient.insertPods(feed, function (err, cb) {
 		if (err) {
 			console.error(err);
 		}
