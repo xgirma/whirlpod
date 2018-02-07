@@ -7,7 +7,7 @@ router.all('/', function (req, res, next) {
 	res.sendStatus(200);
 });
 
-/* GET ping */
+/* GET pods */
 router.get('/pods', function (req, res, next) {
 	mongoClient.pods(function (err, pods) {
 		if (err) {
@@ -43,6 +43,18 @@ router.get('/pods/:title/:type', function (req, res, next) {
 	const title = req.params.title;
 	const type = req.params.type;
 	mongoClient.title(title, type, function (err, pods) {
+		if (err) {
+			console.error(err);
+		}
+		res.json(pods);
+	});
+});
+
+/* GET all pods by title and sort by recent or liked */
+router.get('/pods/ten/:title/:type', function (req, res, next) {
+	const title = req.params.title;
+	const type = req.params.type;
+	mongoClient.tenByTitle(title, type, function (err, pods) {
 		if (err) {
 			console.error(err);
 		}

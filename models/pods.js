@@ -8,7 +8,7 @@ const updatePod = require('./insert');
 const pods = function (cb) {
 	MongoClient.connect(url, function (err, client) {
 		assert.equal(null, err);
-		console.info('Connected to db to get pods.');
+		console.info('Connected to db to get all pods.');
 		
 		const db = client.db('securitypodcasts');
 		const collection = db.collection('pods');
@@ -79,7 +79,29 @@ const title = function (title, type, cb) {
 			sort = {likes: -1};
 		}
 		
-		console.log(title, type);
+		collection
+			.find({title: title})
+			.sort(sort)
+			.toArray(function (err, pods) {
+				assert.equal(null, err);
+				client.close();
+				cb(err, pods);
+			});
+	});
+};
+
+/* return ten pods from a title */
+const tenByTitle = function (title, type, cb) {
+	MongoClient.connect(url, function (err, client) {
+		assert.equal(null, err);
+		console.info('Connected to db to get 10 pods of a title.');
+		
+		const db = client.db('securitypodcasts');
+		const collection = db.collection('pods');
+		let sort = {published: -1};
+		if (type && type === 'liked') {
+			sort = {likes: -1};
+		}
 		
 		collection
 			.find({title: title})
@@ -137,4 +159,5 @@ module.exports = {
 	title,
 	like,
 	insertPods,
+	tenByTitle,
 };
