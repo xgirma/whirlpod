@@ -2,21 +2,32 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const index = require('./routes/index');
+const whitelist = ['http://localhost:3000']; // TODO replace this
 
 const app = express();
+
+const corsOptions = {
+	origin: function (origin, callback) {
+		if (whitelist.indexOf(origin) !== -1) {
+			callback(null, true)
+		} else {
+			callback(new Error('Not allowed by CORS'))
+		}
+	}
+};
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/api/', index);
-app.use('/api/pods', index);
-app.use('/api/pods/:id', index);
-app.use('/api/pods/ten/:type', index);
-app.use('/api/pods/:title/:type', index);
+app.use('/api/', cors(corsOptions), index);
+app.use('/api/pods', cors(corsOptions), index);
+app.use('/api/pods/:id', cors(corsOptions), index);
+app.use('/api/pods/ten/:type', cors(corsOptions), index);
+app.use('/api/pods/:title/:type', cors(corsOptions), index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
