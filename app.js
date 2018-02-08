@@ -18,12 +18,13 @@ const corsOptions = {
 	}
 };
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/api/', cors(corsOptions), index);
+app.use('/api', index);
 app.use('/api/pods', cors(corsOptions), index);
 app.use('/api/pods/:id', cors(corsOptions), index);
 app.use('/api/pods/ten/:type', cors(corsOptions), index);
