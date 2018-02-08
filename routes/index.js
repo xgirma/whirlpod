@@ -73,7 +73,7 @@ router.post('/pods/:id', function (req, res, next) {
 	});
 });
 
-/* POST podcasts */
+/* POST podcasts */ // TODO Protect this route
 router.post('/pods', function (req, res, next) {
 	const feed = 'http://dhenage.libsyn.com/rss'; // TODO remove this
 	mongoClient.insertPods(feed, function (err, cb) {
