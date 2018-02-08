@@ -2,21 +2,21 @@
 
 Routes
 
-## GET /
+## GET /api/
 Return "OK"
 
-## GET /pods
+## GET /api/pods
 Return all pods.
 
-## GET /pods/ten/:type
+## GET /api/pods/ten/:type
 Return ten recent or liked podcasts.
 
-## GET /pods/:title/:type
+## GET /api/pods/:title/:type
 Return ten recent or liked pods of a playlist.
 
-## POST /pods/:id
+## POST /api/pods/:id
 Increment like by one.
 
-## POST /pods
+## POST /api/pods
 Post multiple pods.
 
