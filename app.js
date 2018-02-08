@@ -12,11 +12,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/', index);
-app.use('/pods', index);
-app.use('/pods/:id', index);
-app.use('/pods/ten/:type', index);
-app.use('/pods/:title/:type', index);
+app.use('/api/', index);
+app.use('/api/pods', index);
+app.use('/api/pods/:id', index);
+app.use('/api/pods/ten/:type', index);
+app.use('/api/pods/:title/:type', index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
