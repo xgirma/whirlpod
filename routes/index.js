@@ -44,7 +44,7 @@ router.get('/pods/:title/:type', function (req, res, next) {
 	const type = req.params.type;
 	mongoClient.title(title, type, function (err, pods) {
 		if (err) {
-			console.error(err);
+			console.error(err); // TODO Error handling
 		}
 		res.json(pods);
 	});

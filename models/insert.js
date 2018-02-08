@@ -9,10 +9,10 @@ function insertPods(feed, db, cb) {
 	let image;
 	let owner_name;
 	let owner_email;
-	let episode_title;
+	let displayText; // episode_title
 	let published;
 	let duration;
-	let audio;
+	let url; // audio source url
 	let likes = 0;
 	
 	request(feed, function (err, resp, data) {
@@ -34,14 +34,14 @@ function insertPods(feed, db, cb) {
 			owner_email = data.owner.email || 'Owner email not found.';
 			
 			for (let i = 0; i < data.episodes.length; i += 1) {
-				episode_title = data.episodes[i].title || 'Episode title not found.';
+				displayText = data.episodes[i].title || 'Episode title not found.';
 				published = data.episodes[i].published || 'Published date info not found.';
 				duration = data.episodes[i].duration || 'Duration data not found.';
-				audio = data.episodes[i].enclosure.url || 'Audio url not found.';
+				url = data.episodes[i].enclosure.url || 'Audio url not found.';
 				
 				collection.update(
 					{
-						audio: audio
+						url: url
 					},
 					{
 						title: title,
@@ -50,10 +50,10 @@ function insertPods(feed, db, cb) {
 						image: image,
 						owner_name: owner_name,
 						owner_email: owner_email,
-						episode_title: episode_title,
+						displayText: displayText,
 						published: published,
 						duration: duration,
-						audio: audio,
+						url: url,
 						likes: likes
 					},
 					{
