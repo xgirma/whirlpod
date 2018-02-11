@@ -1,5 +1,6 @@
 const request = require('request');
 const parser = require('node-podcast-parser');
+const moment = require('moment');
 
 function insertPods(feed, db, cb) {
 	const collection = db.collection('pods');
@@ -50,7 +51,7 @@ function insertPods(feed, db, cb) {
 			
 			for (let i = 0; i < data.episodes.length; i += 1) {
 				displayText = data.episodes[i].title;
-				published = data.episodes[i].published;
+				published = moment(data.episodes[i].published).format("MMM Do YY");
 				if(data.episodes[i].duration){
 					duration = data.episodes[i].duration;
 				}
