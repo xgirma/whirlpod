@@ -75,7 +75,10 @@ router.post('/pods/:id', function (req, res, next) {
 
 /* POST podcasts */ // TODO Protect this route
 router.post('/pods', function (req, res, next) {
-	const feed = 'http://dhenage.libsyn.com/rss'; // TODO remove this
+	// const feed = 'http://dhenage.libsyn.com/rss'; // TODO remove this
+	// const feed = 'http://feeds.feedburner.com/securityweekly/XBIC'
+	const feed = 'http://feeds.twit.tv/sn.xml';
+	// const feed = 'http://feeds.twit.tv/sn_video_hd.xml';
 	mongoClient.insertPods(feed, function (err, cb) {
 		if (err) {
 			console.error(err);

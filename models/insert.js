@@ -3,16 +3,17 @@ const parser = require('node-podcast-parser');
 
 function insertPods(feed, db, cb) {
 	const collection = db.collection('pods');
-	let title;
-	let link;
-	let description;
-	let image;
-	let owner_name;
-	let owner_email;
-	let displayText; // episode_title
-	let published;
-	let duration;
-	let url; // audio source url
+	let title = undefined;
+	let link = undefined;
+	let description = undefined;
+	let image = undefined;
+	let owner_name = undefined;
+	let owner_email = undefined;
+	let displayText = undefined; // episode_title
+	let published = undefined;
+	let duration = undefined;
+	let url = undefined; // audio/video source url
+	let media_type = undefined;
 	let likes = 0;
 	
 	request(feed, function (err, resp, data) {
@@ -26,18 +27,38 @@ function insertPods(feed, db, cb) {
 				return;
 			}
 			
-			title = data.title || 'Title not found.';
-			link = data.link || 'Link not found.';
-			description = data.description.short || 'Description not found.';
-			image = data.image || 'Image not found.';
-			owner_name = data.owner.name || 'Owner name not found.';
-			owner_email = data.owner.email || 'Owner email not found.';
+			title = data.title;
+			link = data.link;
+			if(data.description){
+				if(data.description.short){
+					description = data.description.short
+				} else if(data.description.long){
+					description = data.description.long
+				}
+			}
+			if(data.image){
+				image = data.image;
+			}
+			if(data.owner){
+				if(data.owner.name){
+					owner_name = data.owner.name;
+				}
+				if(data.owner.email){
+					owner_email = data.owner.email
+				}
+			}
 			
 			for (let i = 0; i < data.episodes.length; i += 1) {
-				displayText = data.episodes[i].title || 'Episode title not found.';
-				published = data.episodes[i].published || 'Published date info not found.';
-				duration = data.episodes[i].duration || 'Duration data not found.';
-				url = data.episodes[i].enclosure.url || 'Audio url not found.';
+				displayText = data.episodes[i].title;
+				published = data.episodes[i].published;
+				if(data.episodes[i].duration){
+					duration = data.episodes[i].duration;
+				}
+				
+				if(data.episodes[i].enclosure){
+					media_type = data.episodes[i].enclosure.type;
+					url = data.episodes[i].enclosure.url;
+				}
 				
 				collection.update(
 					{
@@ -54,6 +75,7 @@ function insertPods(feed, db, cb) {
 						published: published,
 						duration: duration,
 						url: url,
+						media_type: media_type,
 						likes: likes
 					},
 					{
