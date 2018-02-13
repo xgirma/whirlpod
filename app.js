@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.use(function(req, res, next){
 	res.header('Access-Control-Allow_origin', '*');
-	res.header('Access-Control-Allow_Methods', 'GET, PUT, POST, DELETE');
+	res.header('Access-Control-Allow_Methods', 'GET, PUT, POST');
 	res.header('Access-Control-Allow-Headers', 'Content-Type');
 	next();
 });
