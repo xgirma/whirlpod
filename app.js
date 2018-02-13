@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const index = require('./routes/index');
-const whitelist = ['http://localhost:3000']; // TODO replace this
+const whitelist = ['http://localhost:3000', 'https://xgirma.github.io']; // TODO replace this
 
 const app = express();
 
