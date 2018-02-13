@@ -24,6 +24,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
+app.use(function(req, res, next){
+	res.header('Access-Control-Allow_origin', '*');
+	res.header('Access-Control-Allow_Methods', 'GET, PUT, POST, DELETE');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	next();
+});
+
 app.use('/api', index);
 app.use('/api/pods', cors(corsOptions), index);
 app.use('/api/pods/:id', cors(corsOptions), index);
