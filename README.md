@@ -17,6 +17,15 @@ Return ten recent or liked pods of a playlist.
 ## POST /api/pods/:id
 Increment like by one.
 
-## POST /api/pods
+## POST /api/pods?url=http://dhenage.libsyn.com/rss
 Post multiple pods.
 
+# List
+
+```json
+{
+  "Crypto-Gram": "http://dhenage.libsyn.com/rss",
+  "SecurityWeekly": "http://feeds.feedburner.com/securityweekly/XBIC",
+  "SecurityNow": "http://feeds.twit.tv/sn_video_hd.xml"
+}
+```
