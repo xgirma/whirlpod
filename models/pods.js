@@ -2,7 +2,9 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const url = process.env.MONGO_URL || null;
-const updatePod = require('./insert');
+const url_channels = process.env.SECCH_URL || null;
+const updatePod = require('./insert').insertPods;
+const insertChannels = require('./insert').insertChannels;
 
 /* return all pods */
 const pods = function (cb) {
@@ -152,6 +154,20 @@ const insertPods = function (feed, cb) {
 	});
 };
 
+const insertChannel = function (feed, cb) {
+	MongoClient.connect(url_channels, function (err, client) {
+		assert.equal(null, err);
+		console.info('Connected to db to insert channels.');
+		
+		const db = client.db('sec-channels');
+		insertChannels(feed, db, function (data) {
+			client.close();
+			console.info('Posted: ', data);
+			cb(err, {status: 'ok'});
+		});
+	});
+};
+
 module.exports = {
 	pods,
 	tenRecent,
@@ -159,5 +175,6 @@ module.exports = {
 	title,
 	like,
 	insertPods,
+	insertChannel,
 	tenByTitle,
 };

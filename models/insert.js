@@ -29,21 +29,21 @@ function insertPods(feed, db, cb) {
 			
 			title = data.title;
 			link = data.link;
-			if(data.description){
-				if(data.description.short){
+			if (data.description) {
+				if (data.description.short) {
 					description = data.description.short
-				} else if(data.description.long){
+				} else if (data.description.long) {
 					description = data.description.long
 				}
 			}
-			if(data.image){
+			if (data.image) {
 				image = data.image;
 			}
-			if(data.owner){
-				if(data.owner.name){
+			if (data.owner) {
+				if (data.owner.name) {
 					owner_name = data.owner.name;
 				}
-				if(data.owner.email){
+				if (data.owner.email) {
 					owner_email = data.owner.email
 				}
 			}
@@ -51,11 +51,11 @@ function insertPods(feed, db, cb) {
 			for (let i = 0; i < data.episodes.length; i += 1) {
 				displayText = data.episodes[i].title;
 				published = data.episodes[i].published;
-				if(data.episodes[i].duration){
+				if (data.episodes[i].duration) {
 					duration = data.episodes[i].duration;
 				}
 				
-				if(data.episodes[i].enclosure){
+				if (data.episodes[i].enclosure) {
 					media_type = data.episodes[i].enclosure.type;
 					url = data.episodes[i].enclosure.url;
 				}
@@ -88,4 +88,85 @@ function insertPods(feed, db, cb) {
 	});
 }
 
-module.exports = insertPods;
+function insertChannels(feed, db, cb) {
+	console.log('feed', feed);
+	const collection = db.collection('channels');
+	let title = undefined;
+	let link = undefined;
+	let description_short = undefined;
+	let description_long = undefined;
+	let image = undefined;
+	let owner_name = undefined;
+	let owner_email = undefined;
+	
+	request(feed, function (err, resp, data) {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		parser(data, function (err, data) {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			
+			title = data.title;
+			link = data.link;
+			
+			if(data.description.short){
+				description_short = data.description.short;
+			}
+			
+			if(data.description.long){
+				description_long = data.description.long;
+			}
+			
+			if (data.image) {
+				image = data.image;
+			}
+			
+			if (data.owner) {
+				if (data.owner.name) {
+					owner_name = data.owner.name;
+				}
+				if (data.owner.email) {
+					owner_email = data.owner.email
+				}
+			}
+			
+			if (data.owner) {
+				if (data.owner.name) {
+					owner_name = data.owner.name;
+				}
+				if (data.owner.email) {
+					owner_email = data.owner.email
+				}
+			}
+			
+			collection.update(
+				{
+					title: title
+				},
+				{
+					title: title,
+					link: link,
+					description_short: description_short,
+					description_long: description_long,
+					image: image,
+					owner_name: owner_name,
+					owner_email: owner_email
+				},
+				{
+					upsert: true
+				}
+			);
+			
+			cb(title);
+		});
+	});
+}
+
+module.exports = {
+	insertPods,
+	insertChannels
+};

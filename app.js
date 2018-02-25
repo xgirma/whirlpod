@@ -33,6 +33,7 @@ app.use(function(req, res, next){
 
 app.use('/api', index);
 app.use('/api/pods', cors(corsOptions), index);
+app.use('/api/channels', cors(corsOptions), index);
 app.use('/api/pods/:id', cors(corsOptions), index);
 app.use('/api/pods/ten/:type', cors(corsOptions), index);
 app.use('/api/pods/:title/:type', cors(corsOptions), index);

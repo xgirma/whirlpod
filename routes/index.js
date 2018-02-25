@@ -62,7 +62,7 @@ router.get('/pods/ten/:title/:type', function (req, res, next) {
 	});
 });
 
-/* POST increment like count */
+/* POST increment like count */ // TODO prevent multiple likes
 router.post('/pods/:id', function (req, res, next) {
 	const id = req.params.id;
 	mongoClient.like(id, function (err, likedPod) {
@@ -77,8 +77,19 @@ router.post('/pods/:id', function (req, res, next) {
 router.post('/pods', function (req, res, next) {
 	const feed = req.query.url;
 	
-	console.log('feed: ', feed);
 	mongoClient.insertPods(feed, function (err, cb) {
+		if (err) {
+			console.error(err);
+		}
+		res.status(200).json(cb);
+	});
+});
+
+/* POST podcasts */ // TODO Protect this route
+router.post('/channels', function (req, res, next) {
+	const feed = req.query.url;
+	
+	mongoClient.insertChannel(feed, function (err, cb) {
 		if (err) {
 			console.error(err);
 		}
