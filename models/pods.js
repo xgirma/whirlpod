@@ -26,6 +26,26 @@ const pods = function (cb) {
 	});
 };
 
+/* return all pods */
+const channels = function (cb) {
+	MongoClient.connect(url_channels, function (err, client) {
+		assert.equal(null, err);
+		console.info('Connected to db to get all channels.');
+		
+		const db = client.db('sec-channels');
+		const collection = db.collection('channels');
+		
+		collection
+			.find()
+			.sort({'titled': 1})
+			.toArray(function (err, channels) {
+				assert.equal(null, err);
+				client.close();
+				cb(err, channels);
+			});
+	});
+};
+
 /* returns recent 10 pods */
 const tenRecent = function (cb) {
 	MongoClient.connect(url, function (err, client) {
@@ -170,6 +190,7 @@ const insertChannel = function (feed, cb) {
 
 module.exports = {
 	pods,
+	channels,
 	tenRecent,
 	tenLiked,
 	title,

@@ -17,6 +17,16 @@ router.get('/pods', function (req, res, next) {
 	});
 });
 
+/* GET pods */
+router.get('/channels', function (req, res, next) {
+	mongoClient.channels(function (err, pods) {
+		if (err) {
+			console.error(err);
+		}
+		res.json(pods);
+	});
+});
+
 /* GET 10 recent or top 10 liked pods */
 router.get('/pods/ten/:type', function (req, res, next) {
 	if (req.params.type === 'recent') {

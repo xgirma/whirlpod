@@ -5,6 +5,9 @@ Routes
 ## GET /api/
 Return "OK"
 
+## GET /api/channels
+Return all channels data.
+
 ## GET /api/pods
 Return all pods.
 
@@ -20,7 +23,10 @@ Increment like by one.
 ## POST /api/pods?url=http://dhenage.libsyn.com/rss
 Post multiple pods.
 
-# List
+## POST /api/channels?url=http://dhenage.libsyn.com/rss
+Post a single channel data.
+
+# Example Feeds
 
 ```json
 {
