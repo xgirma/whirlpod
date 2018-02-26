@@ -37,7 +37,7 @@ const channels = function (cb) {
 		
 		collection
 			.find()
-			.sort({'titled': 1})
+			.sort({'title': 1})
 			.toArray(function (err, channels) {
 				assert.equal(null, err);
 				client.close();
