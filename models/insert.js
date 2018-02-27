@@ -28,6 +28,7 @@ function insertPods(feed, db, cb) {
 			}
 			
 			title = data.title;
+			title.replace('/', '-');
 			link = data.link;
 			if (data.description) {
 				if (data.description.short) {
@@ -110,7 +111,8 @@ function insertChannels(feed, db, cb) {
 				return;
 			}
 			
-			title = data.title;
+			const temp = data.title;
+			title = temp.replace('/', '-');
 			link = data.link;
 			
 			if(data.description.short){
