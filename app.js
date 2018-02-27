@@ -37,6 +37,7 @@ app.use('/api/channels', cors(corsOptions), index);
 app.use('/api/pods/:id', cors(corsOptions), index);
 app.use('/api/pods/ten/:type', cors(corsOptions), index);
 app.use('/api/pods/:title/:type', cors(corsOptions), index);
+app.use('/api/pods/ten/:title/:type', cors(corsOptions), index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
